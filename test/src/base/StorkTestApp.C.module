@@ -1,0 +1,62 @@
+//* This file is part of the MOOSE framework
+//* https://www.mooseframework.org
+//*
+//* All rights reserved, see COPYRIGHT for full restrictions
+//* https://github.com/idaholab/moose/blob/master/COPYRIGHT
+//*
+//* Licensed under LGPL 2.1, please see LICENSE for details
+//* https://www.gnu.org/licenses/lgpl-2.1.html
+#include "signed_distance_functionTestApp.h"
+#include "signed_distance_functionApp.h"
+#include "Moose.h"
+#include "AppFactory.h"
+#include "MooseSyntax.h"
+
+template <>
+InputParameters
+validParams<signed_distance_functionTestApp>()
+{
+  InputParameters params = validParams<signed_distance_functionApp>();
+  return params;
+}
+
+signed_distance_functionTestApp::signed_distance_functionTestApp(InputParameters parameters) : MooseApp(parameters)
+{
+  signed_distance_functionTestApp::registerAll(
+      _factory, _action_factory, _syntax, getParam<bool>("allow_test_objects"));
+}
+
+signed_distance_functionTestApp::~signed_distance_functionTestApp() {}
+
+void
+signed_distance_functionTestApp::registerAll(Factory & f, ActionFactory & af, Syntax & s, bool use_test_objs)
+{
+  signed_distance_functionApp::registerAll(f, af, s);
+  if (use_test_objs)
+  {
+    Registry::registerObjectsTo(f, {"signed_distance_functionTestApp"});
+    Registry::registerActionsTo(af, {"signed_distance_functionTestApp"});
+  }
+}
+
+void
+signed_distance_functionTestApp::registerApps()
+{
+  registerApp(signed_distance_functionApp);
+  registerApp(signed_distance_functionTestApp);
+}
+
+/***************************************************************************************************
+ *********************** Dynamic Library Entry Points - DO NOT MODIFY ******************************
+ **************************************************************************************************/
+// External entry point for dynamic application loading
+extern "C" void
+signed_distance_functionTestApp__registerAll(Factory & f, ActionFactory & af, Syntax & s)
+{
+  signed_distance_functionTestApp::registerAll(f, af, s);
+}
+extern "C" void
+signed_distance_functionTestApp__registerApps()
+{
+  signed_distance_functionTestApp::registerApps();
+}
