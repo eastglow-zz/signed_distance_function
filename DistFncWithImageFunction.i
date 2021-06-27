@@ -83,7 +83,9 @@ calc_time = 0.19
 [Functions]
   [./boxcar_from_image]  # range: [0, 1]
     type = ImageFunction
-    file = './imageIC_2D//boxcar.png'
+    file = './imageIC_2D/boxcar.png'
+    #file = './imageIC_2D/Picture1.png'
+    #file = './imageIC_2D/Picture2.png'
     component = 0
     scale = 0.00392156862
   [../]
